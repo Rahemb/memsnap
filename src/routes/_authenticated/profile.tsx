@@ -35,7 +35,7 @@ function formatBytes(bytes: number) {
 
 function ProfilePage() {
   const { user } = useAuth();
-  const { theme, setTheme } = useTheme();
+  const { mode, setMode } = useTheme();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -87,10 +87,10 @@ function ProfilePage() {
             ).map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
-                onClick={() => setTheme(key)}
+                onClick={() => setMode(key)}
                 className={cn(
                   "tap flex flex-1 items-center justify-center gap-1.5 rounded-full py-2.5 text-[13.5px] font-medium",
-                  theme === key ? "bg-surface text-foreground shadow-soft" : "text-muted-foreground",
+                  mode === key ? "bg-surface text-foreground shadow-soft" : "text-muted-foreground",
                 )}
               >
                 <Icon className="size-3.5" />
