@@ -221,3 +221,11 @@ If the context has nothing relevant, say you could not find anything saved about
     ?.content;
   return content?.trim() ?? "I could not read an answer from the analyser.";
 }
+
+/**
+ * Semantic-search relevance gates. Vector search always returns nearest
+ * neighbours, even when nothing is actually related, so we discard weak
+ * matches and matches far behind the best hit.
+ */
+export const SIMILARITY_FLOOR = 0.55;
+export const RELATIVE_DROP = 0.12;

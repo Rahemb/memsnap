@@ -105,7 +105,7 @@ export const semanticSearch = createServerFn({ method: "POST" })
     ),
   )
   .handler(async ({ data, context }) => {
-    const { embedText } = await import("@/lib/ai.server");
+    const { embedText, SIMILARITY_FLOOR, RELATIVE_DROP } = await import("@/lib/ai.server");
     try {
       const embedding = await embedText(data.query);
       const { data: matches, error } = await context.supabase.rpc("match_screenshots", {
@@ -113,13 +113,16 @@ export const semanticSearch = createServerFn({ method: "POST" })
         match_count: data.limit ?? 24,
       });
       if (error) throw error;
+      const scored = (matches ?? [])
+        .map((m) => ({ id: m.screenshot_id as string, similarity: Number(m.similarity) }))
+        .filter((m) => Number.isFinite(m.similarity) && m.similarity >= SIMILARITY_FLOOR);
+      const best = scored[0]?.similarity ?? 0;
       return {
         ok: true as const,
-        matches: (matches ?? []).map((m) => ({
-          id: m.screenshot_id as string,
-          similarity: Number(m.similarity),
-        })),
+        matches: scored.filter((m) => m.similarity >= best - RELATIVE_DROP),
       };
+
+
     } catch (err) {
       return {
         ok: false as const,
@@ -136,7 +139,9 @@ export const askScreenshots = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    const { embedText, answerQuestion, embeddingContent } = await import("@/lib/ai.server");
+    const { embedText, answerQuestion, embeddingContent, SIMILARITY_FLOOR } = await import(
+      "@/lib/ai.server"
+    );
 
     try {
       let ids: string[] = [];
@@ -146,7 +151,10 @@ export const askScreenshots = createServerFn({ method: "POST" })
           query_embedding: JSON.stringify(embedding),
           match_count: 12,
         });
-        ids = (matches ?? []).map((m) => m.screenshot_id as string);
+        ids = (matches ?? [])
+          .filter((m) => Number(m.similarity) >= SIMILARITY_FLOOR)
+          .map((m) => m.screenshot_id as string);
+
       } catch {
         ids = [];
       }
