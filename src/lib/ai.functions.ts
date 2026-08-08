@@ -113,13 +113,15 @@ export const semanticSearch = createServerFn({ method: "POST" })
         match_count: data.limit ?? 24,
       });
       if (error) throw error;
+      const scored = (matches ?? [])
+        .map((m) => ({ id: m.screenshot_id as string, similarity: Number(m.similarity) }))
+        .filter((m) => Number.isFinite(m.similarity) && m.similarity >= SIMILARITY_FLOOR);
+      const best = scored[0]?.similarity ?? 0;
       return {
         ok: true as const,
-        matches: (matches ?? []).map((m) => ({
-          id: m.screenshot_id as string,
-          similarity: Number(m.similarity),
-        })),
+        matches: scored.filter((m) => m.similarity >= best - RELATIVE_DROP),
       };
+
     } catch (err) {
       return {
         ok: false as const,
