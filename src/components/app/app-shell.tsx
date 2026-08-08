@@ -67,9 +67,9 @@ export function PageHeader({
   back,
 }: {
   title: string;
-  subtitle?: string;
-  action?: ReactNode;
-  back?: ReactNode;
+  subtitle?: string | undefined;
+  action?: ReactNode | undefined;
+  back?: ReactNode | undefined;
 }) {
   return (
     <header className="glass-bar sticky top-0 z-30 border-b border-border pt-safe">

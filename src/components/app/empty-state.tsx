@@ -10,7 +10,7 @@ export function EmptyState({
   icon: LucideIcon;
   title: string;
   description: string;
-  action?: ReactNode;
+  action?: ReactNode | undefined;
 }) {
   return (
     <div className="animate-rise mx-auto flex max-w-sm flex-col items-center px-6 py-14 text-center">
@@ -30,8 +30,8 @@ export function SectionHeader({
   action,
 }: {
   title: string;
-  hint?: string;
-  action?: ReactNode;
+  hint?: string | undefined;
+  action?: ReactNode | undefined;
 }) {
   return (
     <div className="mb-3 flex items-end justify-between gap-3">
