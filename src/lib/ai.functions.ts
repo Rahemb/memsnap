@@ -105,7 +105,7 @@ export const semanticSearch = createServerFn({ method: "POST" })
     ),
   )
   .handler(async ({ data, context }) => {
-    const { embedText } = await import("@/lib/ai.server");
+    const { embedText, SIMILARITY_FLOOR, RELATIVE_DROP } = await import("@/lib/ai.server");
     try {
       const embedding = await embedText(data.query);
       const { data: matches, error } = await context.supabase.rpc("match_screenshots", {
@@ -121,6 +121,7 @@ export const semanticSearch = createServerFn({ method: "POST" })
         ok: true as const,
         matches: scored.filter((m) => m.similarity >= best - RELATIVE_DROP),
       };
+
 
     } catch (err) {
       return {
