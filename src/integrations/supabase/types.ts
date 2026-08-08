@@ -14,13 +14,381 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      collection_items: {
+        Row: {
+          added_at: string
+          collection_id: string
+          screenshot_id: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          collection_id: string
+          screenshot_id: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          collection_id?: string
+          screenshot_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_items_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collection_items_screenshot_id_fkey"
+            columns: ["screenshot_id"]
+            isOneToOne: false
+            referencedRelation: "screenshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          cover_screenshot_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cover_screenshot_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cover_screenshot_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collections_cover_screenshot_id_fkey"
+            columns: ["cover_screenshot_id"]
+            isOneToOne: false
+            referencedRelation: "screenshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      processing_jobs: {
+        Row: {
+          attempts: number
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          job_type: string
+          screenshot_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          job_type?: string
+          screenshot_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          job_type?: string
+          screenshot_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "processing_jobs_screenshot_id_fkey"
+            columns: ["screenshot_id"]
+            isOneToOne: false
+            referencedRelation: "screenshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          onboarded: boolean
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+          onboarded?: boolean
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          onboarded?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      screenshot_embeddings: {
+        Row: {
+          content: string
+          created_at: string
+          embedding: string
+          model_version: string
+          screenshot_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          embedding: string
+          model_version?: string
+          screenshot_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          embedding?: string
+          model_version?: string
+          screenshot_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "screenshot_embeddings_screenshot_id_fkey"
+            columns: ["screenshot_id"]
+            isOneToOne: true
+            referencedRelation: "screenshots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      screenshots: {
+        Row: {
+          brand: string | null
+          captured_at: string | null
+          category: string | null
+          city: string | null
+          confidence_score: number | null
+          content_type: string | null
+          country: string | null
+          created_at: string
+          currency: string | null
+          detected_text: string | null
+          error_message: string | null
+          event_date: string | null
+          file_size: number | null
+          height: number | null
+          id: string
+          image_hash: string | null
+          is_archived: boolean
+          is_edited: boolean
+          last_viewed_at: string | null
+          location_name: string | null
+          metadata: Json
+          original_filename: string | null
+          price: number | null
+          product_name: string | null
+          restaurant_name: string | null
+          search_vector: unknown
+          source_platform: string | null
+          status: string
+          storage_path: string
+          subcategory: string | null
+          suggested_actions: string[]
+          summary: string | null
+          tags: string[]
+          thumbnail_path: string | null
+          title: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+          width: number | null
+        }
+        Insert: {
+          brand?: string | null
+          captured_at?: string | null
+          category?: string | null
+          city?: string | null
+          confidence_score?: number | null
+          content_type?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          detected_text?: string | null
+          error_message?: string | null
+          event_date?: string | null
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          image_hash?: string | null
+          is_archived?: boolean
+          is_edited?: boolean
+          last_viewed_at?: string | null
+          location_name?: string | null
+          metadata?: Json
+          original_filename?: string | null
+          price?: number | null
+          product_name?: string | null
+          restaurant_name?: string | null
+          search_vector?: unknown
+          source_platform?: string | null
+          status?: string
+          storage_path: string
+          subcategory?: string | null
+          suggested_actions?: string[]
+          summary?: string | null
+          tags?: string[]
+          thumbnail_path?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+          width?: number | null
+        }
+        Update: {
+          brand?: string | null
+          captured_at?: string | null
+          category?: string | null
+          city?: string | null
+          confidence_score?: number | null
+          content_type?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          detected_text?: string | null
+          error_message?: string | null
+          event_date?: string | null
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          image_hash?: string | null
+          is_archived?: boolean
+          is_edited?: boolean
+          last_viewed_at?: string | null
+          location_name?: string | null
+          metadata?: Json
+          original_filename?: string | null
+          price?: number | null
+          product_name?: string | null
+          restaurant_name?: string | null
+          search_vector?: unknown
+          source_platform?: string | null
+          status?: string
+          storage_path?: string
+          subcategory?: string | null
+          suggested_actions?: string[]
+          summary?: string | null
+          tags?: string[]
+          thumbnail_path?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
+      search_history: {
+        Row: {
+          created_at: string
+          id: string
+          mode: string
+          query: string
+          result_count: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mode?: string
+          query: string
+          result_count?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mode?: string
+          query?: string
+          result_count?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          auto_analyze: boolean
+          rediscover_enabled: boolean
+          store_detected_text: boolean
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_analyze?: boolean
+          rediscover_enabled?: boolean
+          store_detected_text?: boolean
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_analyze?: boolean
+          rediscover_enabled?: boolean
+          store_detected_text?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_screenshots: {
+        Args: { match_count?: number; query_embedding: string }
+        Returns: {
+          screenshot_id: string
+          similarity: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
