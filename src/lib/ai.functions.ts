@@ -139,7 +139,9 @@ export const askScreenshots = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    const { embedText, answerQuestion, embeddingContent } = await import("@/lib/ai.server");
+    const { embedText, answerQuestion, embeddingContent, SIMILARITY_FLOOR } = await import(
+      "@/lib/ai.server"
+    );
 
     try {
       let ids: string[] = [];
@@ -149,6 +151,7 @@ export const askScreenshots = createServerFn({ method: "POST" })
           query_embedding: JSON.stringify(embedding),
           match_count: 12,
         });
+
         ids = (matches ?? []).map((m) => m.screenshot_id as string);
       } catch {
         ids = [];
