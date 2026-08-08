@@ -83,7 +83,7 @@ function AddPage() {
 
       for (const item of pending) {
         try {
-          patch(item.key, { state: "uploading", message: undefined });
+          patch(item.key, { state: "uploading" });
           const fingerprint = await imageFingerprint(item.file);
           const existing = await findDuplicate(user.id, fingerprint);
           if (existing) {

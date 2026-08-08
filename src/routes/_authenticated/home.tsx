@@ -179,7 +179,7 @@ function HomePage() {
         <section>
           <SectionHeader
             title={category ? categoryMeta(category).label : "Recently added"}
-            hint={category ? "Filtered by category" : undefined}
+            {...(category ? { hint: "Filtered by category" } : {})}
           />
 
           {screenshots.isLoading ? <CardSkeleton /> : null}
