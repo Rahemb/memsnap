@@ -151,8 +151,10 @@ export const askScreenshots = createServerFn({ method: "POST" })
           query_embedding: JSON.stringify(embedding),
           match_count: 12,
         });
+        ids = (matches ?? [])
+          .filter((m) => Number(m.similarity) >= SIMILARITY_FLOOR)
+          .map((m) => m.screenshot_id as string);
 
-        ids = (matches ?? []).map((m) => m.screenshot_id as string);
       } catch {
         ids = [];
       }
