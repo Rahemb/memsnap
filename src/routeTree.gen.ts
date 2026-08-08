@@ -15,10 +15,13 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAddRouteImport } from './routes/_authenticated/add'
+import { Route as AuthenticatedArchiveRouteImport } from './routes/_authenticated/archive'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedCollectionsIndexRouteImport } from './routes/_authenticated/collections/index'
 import { Route as AuthenticatedCollectionsIdRouteImport } from './routes/_authenticated/collections/$id'
+import { Route as AuthenticatedSIdRouteImport } from './routes/_authenticated/s/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,9 +52,19 @@ const AuthenticatedAddRoute = AuthenticatedAddRouteImport.update({
   path: '/add',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedArchiveRoute = AuthenticatedArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
@@ -71,6 +84,11 @@ const AuthenticatedCollectionsIdRoute =
     path: '/collections/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSIdRoute = AuthenticatedSIdRouteImport.update({
+  id: '/s/$id',
+  path: '/s/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -78,9 +96,12 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/add': typeof AuthenticatedAddRoute
+  '/archive': typeof AuthenticatedArchiveRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/search': typeof AuthenticatedSearchRoute
   '/collections/$id': typeof AuthenticatedCollectionsIdRoute
+  '/s/$id': typeof AuthenticatedSIdRoute
   '/collections/': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -89,9 +110,12 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/add': typeof AuthenticatedAddRoute
+  '/archive': typeof AuthenticatedArchiveRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/search': typeof AuthenticatedSearchRoute
   '/collections/$id': typeof AuthenticatedCollectionsIdRoute
+  '/s/$id': typeof AuthenticatedSIdRoute
   '/collections': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRoutesById {
@@ -102,9 +126,12 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/add': typeof AuthenticatedAddRoute
+  '/_authenticated/archive': typeof AuthenticatedArchiveRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/collections/$id': typeof AuthenticatedCollectionsIdRoute
+  '/_authenticated/s/$id': typeof AuthenticatedSIdRoute
   '/_authenticated/collections/': typeof AuthenticatedCollectionsIndexRoute
 }
 export interface FileRouteTypes {
@@ -115,9 +142,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/reset-password'
     | '/add'
+    | '/archive'
     | '/home'
+    | '/profile'
     | '/search'
     | '/collections/$id'
+    | '/s/$id'
     | '/collections/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -126,9 +156,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/reset-password'
     | '/add'
+    | '/archive'
     | '/home'
+    | '/profile'
     | '/search'
     | '/collections/$id'
+    | '/s/$id'
     | '/collections'
   id:
     | '__root__'
@@ -138,9 +171,12 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/reset-password'
     | '/_authenticated/add'
+    | '/_authenticated/archive'
     | '/_authenticated/home'
+    | '/_authenticated/profile'
     | '/_authenticated/search'
     | '/_authenticated/collections/$id'
+    | '/_authenticated/s/$id'
     | '/_authenticated/collections/'
   fileRoutesById: FileRoutesById
 }
@@ -196,11 +232,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/archive': {
+      id: '/_authenticated/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof AuthenticatedArchiveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/home': {
       id: '/_authenticated/home'
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/search': {
@@ -224,22 +274,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCollectionsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/s/$id': {
+      id: '/_authenticated/s/$id'
+      path: '/s/$id'
+      fullPath: '/s/$id'
+      preLoaderRoute: typeof AuthenticatedSIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAddRoute: typeof AuthenticatedAddRoute
+  AuthenticatedArchiveRoute: typeof AuthenticatedArchiveRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedCollectionsIdRoute: typeof AuthenticatedCollectionsIdRoute
+  AuthenticatedSIdRoute: typeof AuthenticatedSIdRoute
   AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAddRoute: AuthenticatedAddRoute,
+  AuthenticatedArchiveRoute: AuthenticatedArchiveRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedCollectionsIdRoute: AuthenticatedCollectionsIdRoute,
+  AuthenticatedSIdRoute: AuthenticatedSIdRoute,
   AuthenticatedCollectionsIndexRoute: AuthenticatedCollectionsIndexRoute,
 }
 
